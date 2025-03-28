@@ -1,0 +1,24 @@
+{
+  "entries": [
+    {
+      "hosts": [
+        ".*"
+      ],
+      "param_name": [
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_term",
+        "utm_content"
+      ]
+    },
+		{
+      "hosts": [
+        "youtu.be"
+      ],
+      "param_name": [
+        "si"
+      ]
+    }
+  ]
+}
