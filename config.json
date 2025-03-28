@@ -20,6 +20,15 @@
       "param_name": [
         "si"
       ]
+    },
+    {
+      "hosts": [
+        "x.com"
+      ],
+      "param_name": [
+        "s",
+        "t"
+      ]
     }
   ]
 }
