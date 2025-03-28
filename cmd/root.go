@@ -11,7 +11,7 @@ var cfgFile string
 
 var rootCmd = &cobra.Command{
 	Use:   "byebyelinktracking",
-	Short: "Remove link tracking from links in your clipboard",
+	Short: "Remove link tracking data from links in your clipboard",
 	Long:  `"Bye Bye, Link Tracking" removes link tracking data from links that are in your clipboard`,
 	Run: func(cmd *cobra.Command, args []string) {
 		byebyelinktracking.Run(cfgFile)
