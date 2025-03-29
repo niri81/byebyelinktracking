@@ -1,34 +1,11 @@
-name: goreleaser
+name: Release New Version
 on:
   push:
-    branches: main
+    tags:
+      - "*"
 
-jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - uses: actions/setup-go@0aaccfd150d50ccaeb58ebd88d36e91967a5f35b # v5.4.0
-        with:
-          go-version: 1.24
-      - name: Install LibX11
-        run: sudo apt-get install libx11-dev
-      - uses: golangci/golangci-lint-action@1481404843c368bc19ca9406f87d6e0fc97bdcfd # v7.0.0
-
-  semver:
-    needs: [lint]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: Get Next Version
-        id: semver
-        uses: ietf-tools/semver-action@d93d5fbbab3c2e2ec76b0d22abac50e8e853fcd2 # v1.10.0
-        with:
-          token: ${{ github.token }}
-          branch: main
-
+jobs:  
   goreleaser:
-    needs: [semver]
     outputs:
       hashes: ${{ steps.binary.outputs.hashes }}
       image: ${{ steps.image.outputs.name }}
@@ -40,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
       - name: Set up Go
         uses: actions/setup-go@0aaccfd150d50ccaeb58ebd88d36e91967a5f35b # v5.4.0
         with:
@@ -52,15 +31,15 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ github.token }}
       - name: Run GoReleaser
         id: goreleaser
         uses: goreleaser/goreleaser-action@90a3faa9d0182683851fbfa97ca1a2cb983bfca3 # v6.2.1
         with:
-          version: "latest"
+          version: "~> v2"
           args: release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Generate binary hashes
         id: binary
         env:
@@ -105,7 +84,7 @@ jobs:
       digest: ${{ needs.goreleaser.outputs.digest }}
       registry-username: ${{ github.actor }}
     secrets:
-      registry-password: ${{ secrets.GITHUB_TOKEN }}
+      registry-password: ${{ github.token }}
 
   verification-with-slsa-verifier:
     needs: [goreleaser, binary-provenance]
@@ -117,8 +96,8 @@ jobs:
 
       - name: Download assets
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ steps.semver.outputs.next }}
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ github.ref_name }}
           PROVENANCE: "${{ needs.binary-provenance.outputs.provenance-name }}"
         run: |
           set -euo pipefail
@@ -128,7 +107,7 @@ jobs:
       - name: Verify assets
         env:
           CHECKSUMS: ${{ needs.goreleaser.outputs.hashes }}
-          VERSION: ${{ steps.semver.outputs.next }}
+          VERSION: ${{ github.ref_name }}
           PROVENANCE: "${{ needs.binary-provenance.outputs.provenance-name }}"
         run: |
           set -euo pipefail
@@ -152,7 +131,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ github.token }}
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
