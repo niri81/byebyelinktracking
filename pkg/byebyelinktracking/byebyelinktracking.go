@@ -44,7 +44,7 @@ func Run(cfgFilePath string) {
 		}
 
 		strData := string(data)
-		if _, err := url.Parse(strData); err != nil {
+		if _, err := url.ParseRequestURI(strData); err != nil {
 			slog.Debug("skipping due to no URL data")
 			continue
 		}
