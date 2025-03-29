@@ -12,7 +12,7 @@ jobs:
         with:
           go-version: 1.24
       - name: Install LibX11
-        run: apt-get install libx11-dev
+        run: sudo apt-get install libx11-dev
       - uses: golangci/golangci-lint-action@1481404843c368bc19ca9406f87d6e0fc97bdcfd # v7.0.0
 
   semver:
@@ -46,7 +46,7 @@ jobs:
           go-version: "1.24"
           check-latest: true 
       - name: Install LibX11
-        run: apt-get install libx11-dev
+        run: sudo apt-get install libx11-dev
       - name: Login
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
         with:
