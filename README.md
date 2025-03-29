@@ -14,6 +14,7 @@ _Bye bye, link tracking_ is installed as a service on your system that monitors 
 ![Gandalf "You shall not pass" meme adopted to "You shall not track my links"](/img/gandalf.jpeg)
 
 ## How to Install
+
 Download a release from the releases tab
 
 ### Build from Source
