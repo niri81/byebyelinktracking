@@ -14,9 +14,9 @@ _Bye bye, link tracking_ is installed as a service on your system that monitors 
 ![Gandalf "You shall not pass" meme adopted to "You shall not track my links"](/img/gandalf.jpeg)
 
 ## How to Install
->
-> If we are doing privacy/cyber security, we are doing it right. No compiling from my side, so you can check the source code at any time. I, myself, would not feel comfortable installing precompiled software that monitors my clipboard.\
-> — niri81
+Download a release from the releases tab
+
+### Build from Source
 
 Clone this repository
 
@@ -33,7 +33,7 @@ go build -o byebyelinktracking
 Run the Executable
 
 ```sh
-./byebyelinktracking
+./byebyelinktracking -h
 ```
 
 ## Planned Features
