@@ -2,12 +2,12 @@ package byebyelinktracking
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 	"net/url"
 	"os"
 	"path"
 
+	"github.com/niri81/byebyelinktracking/internal"
 	"golang.design/x/clipboard"
 )
 
@@ -51,7 +51,7 @@ func Run(cfgFilePath string) {
 
 		for _, entry := range config.Entries {
 			if entry.MatchesHost(strData) {
-				slog.Info("matched clipboard data on config file", "hosts", fmt.Sprint(entry.Host))
+				slog.Info("matched clipboard data on config file", "hosts", internal.ToString(entry.Host))
 
 				newData, ok := entry.Handle(strData)
 				if ok && strData != newData {
