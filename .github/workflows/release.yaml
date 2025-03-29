@@ -1,8 +1,9 @@
 name: Release New Version
 on:
-  push:
-    tags:
-      - "*"
+  workflow_run:
+    workflows: ["Check for New Version"]
+    types:
+      - completed
 
 jobs:  
   goreleaser:
