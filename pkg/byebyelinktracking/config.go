@@ -2,22 +2,29 @@ package byebyelinktracking
 
 import (
 	"encoding/json"
-	"log/slog"
-	"os"
+	"errors"
+	"strings"
+
+	"sigs.k8s.io/yaml"
 )
 
 type Config struct {
 	Entries []configEntry `json:"entries"`
 }
 
-func parseConfig(data []byte) Config {
+func parseConfig(data []byte, ext string) (Config, error) {
 	c := Config{}
 
-	err := json.Unmarshal(data, &c)
-	if err != nil {
-		slog.Error("could not parse config", "err", err.Error())
-		os.Exit(1)
+	var err error
+
+	switch strings.ToLower(ext) {
+	case ".json":
+		err = json.Unmarshal(data, &c)
+	case ".yaml":
+		err = yaml.Unmarshal(data, &c)
+	default:
+		err = errors.New("no supported config type used")
 	}
 
-	return c
+	return c, err
 }

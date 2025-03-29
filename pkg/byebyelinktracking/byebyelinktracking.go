@@ -6,18 +6,27 @@ import (
 	"log/slog"
 	"net/url"
 	"os"
+	"path"
 
 	"golang.design/x/clipboard"
 )
 
-func Run(cfgFile string) {
-	data, err := os.ReadFile(cfgFile)
+func Run(cfgFilePath string) {
+	ext := path.Ext(cfgFilePath)
+
+	data, err := os.ReadFile(cfgFilePath)
 	if err != nil {
 		slog.Error("could not load config file", "err", err.Error())
 		os.Exit(1)
 	}
 
-	config := parseConfig(data)
+	config, err := parseConfig(data, ext)
+	if err != nil {
+		slog.Error("could not parse config", "err", err.Error())
+		os.Exit(1)
+	}
+
+	slog.Info("successfully parsed config file", "filepath", cfgFilePath)
 
 	err = clipboard.Init()
 	if err != nil {

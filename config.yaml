@@ -1,0 +1,19 @@
+entries:
+  - hosts:
+      - .*
+    param_name:
+      - utm_source
+      - utm_medium
+      - utm_campaign
+      - utm_term
+      - utm_content
+      - utm_name
+  - hosts:
+      - youtu.be
+    param_name:
+      - si
+  - hosts:
+      - x.com
+    param_name:
+      - s
+      - t

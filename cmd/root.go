@@ -26,5 +26,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "p", "./config.json", "config file")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "p", "./config.json", "config file, either JSON or YAML")
 }

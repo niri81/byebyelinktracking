@@ -5,6 +5,7 @@ go 1.24.1
 require (
 	github.com/spf13/cobra v1.9.1
 	golang.design/x/clipboard v0.7.0
+	sigs.k8s.io/yaml v1.4.0
 )
 
 require (
