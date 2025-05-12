@@ -39,6 +39,7 @@ func Run(cfgFilePath string) {
 
 	for data := range ch {
 		if writeFromProgram {
+			writeFromProgram = false
 			slog.Debug("skipping due to write from program")
 			continue
 		}
