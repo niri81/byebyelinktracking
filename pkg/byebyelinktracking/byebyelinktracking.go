@@ -6,12 +6,24 @@ import (
 	"net/url"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/niri81/byebyelinktracking/internal"
 	"golang.design/x/clipboard"
 )
 
 func Run(cfgFilePath string) {
+	if strings.Contains(cfgFilePath, "$username") {
+		user := os.Getenv("USER")
+		if user == "" {
+			slog.Error(
+				"could not load your username, please use absolute path with your username or set $USER environment variable",
+			)
+		}
+
+		cfgFilePath = strings.ReplaceAll(cfgFilePath, "$username", user)
+	}
+
 	ext := path.Ext(cfgFilePath)
 
 	data, err := os.ReadFile(cfgFilePath)

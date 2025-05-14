@@ -26,5 +26,6 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "./config.json", "config file, either JSON or YAML")
+	rootCmd.PersistentFlags().
+		StringVarP(&cfgFile, "config", "c", "/home/$username/.config/byebyelinktracking/config.json", "config file, either JSON or YAML")
 }
