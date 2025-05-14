@@ -15,7 +15,33 @@ _Bye bye, link tracking_ is installed as a service on your system that monitors 
 
 ## How to Install
 
-Download a release from the releases tab
+Download a release from the releases tab and move the config file to `/home/$USER/.config/byebyelinktracking/config.json`.
+
+If you want to autostart `byebyelinktracking` for your user, move it to `/usr/bin/byebyelinktracking` and create a file `byebyelinktracking.service` at `/home/$USER/.config/systemd/user/` with the following content (file is also available in the repository):
+
+```
+[Unit]
+Description=Removes tracking from copied links.
+
+[Service]
+ExecStart=/usr/bin/byebyelinktracking
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+> [!NOTE]
+> If you have a custom config location (not `/home/$USER/.config/byebyelinktracking/config.json`), you can add the `-c` option at `ExecStart`.
+
+Then run the following commands to enable your service:
+
+```sh
+systemctl --user daemon-reload
+systemctl --user enable byebyelinktracking.service
+```
+
+You're good to go!
 
 ### Build from Source
 
@@ -39,7 +65,7 @@ Run the Executable
 
 ## Planned Features
 
-- [ ] YAML/TOML Support for config files
-- [ ] Service installation instructions
+- [x] YAML Support for config files
+- [x] Service installation instructions
 - [ ] Further code tidying and more options depending on necessity
 - [ ] Muuuuuch more entries to the config file :) (PRs welcome)

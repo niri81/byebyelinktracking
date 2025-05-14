@@ -1,0 +1,11 @@
+[Unit]
+Description=Removes tracking from copied links.
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/byebyelinktracking
+Type=simple
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
